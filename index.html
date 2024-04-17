@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Shape Editor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.5.0/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            background-color: #333;
+        }
+        canvas {
+            border: 1px solid rgb(255, 255, 255);
+            margin-left: 35%;
+            width: 800px;
+            height: 90%;
+        }
+        button {
+            border-radius: 10px;
+            padding: 10px;
+            padding-top: 6px;
+            padding-bottom: 10px;
+            border: 1px solid rgb(99, 99, 99);
+            font-size: 16px;
+            box-shadow: 0 0 1px rgb(184, 184, 184);
+            background-color: transparent;
+            color: azure;
+        }
+        input { 
+            border-radius: 5px;
+            background-color: transparent;
+            color: azure;
+        }
+        option {  
+            background-color: rgb(0, 130, 252);
+            color: azure;
+        }
+        .Menu { 
+            padding: 10px;
+            padding-top: 6px;
+            padding-bottom: 10px;
+            margin-top: 20px;
+            border: 2px solid silver;
+            border-radius: 6px;
+            background-color: rgb(56, 56, 56);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <div class="Menu">
+        <select id="shapeType">
+            <option value="square">مربع</option>
+            <option value="circle">دائرة</option>
+            <option value="triangle">مثلث</option>
+            <option value="cylinder">Cylinder</option>
+            <option value="line">خط</option>
+            <option value="arrow">سهم</option>
+            <option value="pyramid">هرم</option>
+        </select>
+        <input type="color" id="colorPicker" value="#000000">
+        <input type="number" id="sizePicker" min="10" max="200" value="50">
+        <input type="range" id="opacitySlider" min="0" max="1" step="0.1" value="1">
+        <button onclick="addShape()">إضافة الشكل</button>
+        <input type="file" id="imageUploader" accept="image/png">
+        <input type="file" id="videoUploader" accept="video/mp4">
+        <button onclick="addImage()">إضافة الصورة</button>
+        <button onclick="addVideo()">إضافة الفيديو</button>
+        <input type="text" id="text" placeholder="النص">
+        <button onclick="addText()">إضافة النص</button>
+        <select id="fontType">
+            <option value="Arial">Arial</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Tahoma">Tahoma</option>
+            <option value="Trebuchet MS">Trebuchet MS</option>
+            <option value="Times New Roman">Times New Roman</option>
+        </select>
+        <button onclick="setFont()">تعيين الخط</button>
+        <select id="animationType">
+            <option value="scale">تغيير المقياس</option>
+            <option value="opacity">تغيير الشفافية</option>
+            <option value="top">تحريك لأعلى</option>
+            <option value="left">تحريك لليسار</option>
+            <option value="flipX">اقلب أفقيا</option>
+            <option value="bounce">التذبذب</option>
+            <option value="shake">الهز</option>
+        </select>
+        <button onclick="animateShape()">تشغيل الانيميشن</button>
+        <input type="file" id="designUploader" accept=".json">
+        <button onclick="loadDesign()">تحميل التصميم</button>
+        <input type="color" id="backgroundPicker" value="#ffffff">
+        <button onclick="changeBackgroundColor()">تغيير لون الخلفية</button>
+        <button onclick="moveUp()">نقل للأعلى</button>
+        <button onclick="moveDown()">نقل للأسفل</button>
+        <button onclick="deleteObject()">حذف العنصر</button>
+        <button onclick="copyObject()">نسخ العنصر</button>
+        <button onclick="pasteObject()">لصق العنصر</button>
+        <button id="exportButton" onclick="exportDesign()">تصدير التصميم</button>
+        <button id="displayDesignButton" onclick="displayDesign()">عرض التصميم</button>
+        <button id="downloadImageButton" onclick="downloadImage()">تحميل التصميم كصورة</button>
+        <button id="downloadVideoButton" onclick="downloadVideo()">تحميل التصميم كفيديو</button>
+        <button id="downloadPNGButton" onclick="downloadPNG()">تحميل التصميم كPNG</button>
+        <input type="range" id="brushSize" min="1" max="50" value="10">
+        <button onclick="enableBrush()">تفعيل الرسم</button>
+        <button onclick="enableEraser()">تفعيل الممحاة</button>
+        <button onclick="undo()">تراجع</button>
+        <button onclick="redo()">التقدم</button>
+        <input type="color" id="lightColorPicker" value="#ffffff">
+        <button onclick="addLight()">إضافة ضوء</button>
+        <input type="color" id="shadowColorPicker" value="#000000">
+        <button onclick="addShadow()">إضافة ظلال</button>
+        <button onclick="breakApart()">تفكيك الشكل</button>
+        <button onclick="distortShape()">تشويه الشكل</button>
+    </div>
+    <script>
+        const canvas = new fabric.Canvas('canvas');
+        let history = [canvas.toJSON()]; // Array to store the history of canvas changes
+        let clipboard = null; // Variable to store the copied object
+        let isBrushEnabled = false; // Flag to indicate if drawing mode is enabled
+        let isEraserEnabled = false; // Flag to indicate if eraser mode is enabled
+
+        function addShape() {
+            const shapeType = document.getElementById('shapeType').value;
+            const color = document.getElementById('colorPicker').value;
+            const size = parseInt(document.getElementById('sizePicker').value);
+            const opacity = parseFloat(document.getElementById('opacitySlider').value);
+            let shape;
+            switch (shapeType) {
+                case 'square':
+                    shape = new fabric.Rect({
+                        left: 100,
+                        top: 100,
+                        width: size,
+                        height: size,
+                        fill: color,
+                        opacity: opacity,
+                        selectable: true
+                    });
+                    break;
+                case 'circle':
+                    shape = new fabric.Circle({
+                        left: 100,
+                        top: 100,
+                        radius: size / 2,
+                        fill: color,
+                        opacity: opacity,
+                        selectable: true
+                    });
+                    break;
+                case 'triangle':
+                    shape = new fabric.Triangle({
+                        left: 100,
+                        top: 100,
+                        width: size,
+                        height: size,
+                        fill: color,
+                        opacity: opacity,
+                        selectable: true
+                    });
+                    break;
+        
+                case 'line':
+                    shape = new fabric.Line([100, 100, 200, 200], {
+                        stroke: color,
+                        opacity: opacity,
+                        selectable: true
+                    });
+                    break;
+                case 'arrow':
+                    shape = new fabric.Triangle({
+                        left: 100,
+                        top: 100,
+                        width: size,
+                        height: size / 2,
+                        fill: color,
+                        opacity: opacity,
+                        angle: 90,
+                        selectable: true
+                    });
+                    break;
+                case 'cylinder':
+                    shape = new fabric.Rect({
+                        left: 100,
+                        top: 100,
+                        width: size,
+                        height: size / 2,
+                        fill: color,
+                        opacity: opacity,
+                        rx: size / 2, // لجعل الأسطوانة دائرية
+                        selectable: true
+                    });
+                    break;  
+                case 'pyramid':
+                    shape = new fabric.Polygon([
+                        { x: 100, y: 100 },
+                        { x: 100 + size, y: 100 },
+                        { x: 100 + size / 2, y: 100 + size },
+                    ], {
+                        fill: color,
+                        opacity: opacity,
+                        selectable: true
+                    });
+                    break;
+            }
+            canvas.add(shape);
+            addToHistory();
+        }
+
+        function addImage() {
+            const file = document.getElementById('imageUploader').files[0];
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                fabric.Image.fromURL(event.target.result, img => {
+                    img.set({
+                        left: 100,
+                        top: 100,
+                        selectable: true
+                    });
+                    canvas.add(img);
+                    addToHistory();
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function addVideo() {
+            const file = document.getElementById('videoUploader').files[0];
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const videoElement = document.createElement('video');
+                videoElement.src = event.target.result;
+                videoElement.controls = true;
+                videoElement.crossOrigin = "anonymous";
+                videoElement.onloadedmetadata = function() {
+                    const video = new fabric.Image(videoElement, {
+                        left: 100,
+                        top: 100,
+                        width: this.videoWidth,
+                        height: this.videoHeight,
+                        selectable: true
+                    });
+                    canvas.add(video);
+                    addToHistory();
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function addText() {
+            const text = document.getElementById('text').value;
+            const textColor = document.getElementById('colorPicker').value;
+            const fontType = document.getElementById('fontType').value;
+            const textObject = new fabric.Text(text, {
+                left: 100,
+                top: 100,
+                fill: textColor,
+                selectable: true,
+                fontFamily: fontType
+            });
+            canvas.add(textObject);
+            addToHistory();
+        }
+
+        function setFont() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject && activeObject.type === 'text') {
+                const fontType = document.getElementById('fontType').value;
+                activeObject.set('fontFamily', fontType);
+                canvas.renderAll();
+                addToHistory();
+            }
+        }
+        
+        function animateShape() {
+            const animationType = document.getElementById('animationType').value;
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                const animationOptions = {
+                    onChange: canvas.renderAll.bind(canvas),
+                    duration: 1000,
+                    easing: fabric.util.ease.easeInOutBack
+                };
+                switch (animationType) {
+                    case 'scale':
+                        activeObject.animate('scaleX', activeObject.scaleX === 1 ? 1.5 : 1, animationOptions);
+                        activeObject.animate('scaleY', activeObject.scaleY === 1 ? 1.5 : 1, animationOptions);
+                        break;
+                    case 'opacity':
+                        activeObject.animate('opacity', activeObject.opacity === 1 ? 0.5 : 1, animationOptions);
+                        break;
+                    case 'top':
+                        activeObject.animate('top', activeObject.top === 100 ? 200 : 100, animationOptions);
+                        break;
+                    case 'left':
+                        activeObject.animate('left', activeObject.left === 100 ? 200 : 100, animationOptions);
+                        break;
+                    case 'flipX':
+                        activeObject.animate('flipX', !activeObject.flipX, animationOptions);
+                        break;
+                    case 'bounce':
+                        activeObject.animate('top', activeObject.top === 100 ? 200 : 100, {
+                            onChange: canvas.renderAll.bind(canvas),
+                            duration: 500,
+                            easing: fabric.util.ease.easeOutBounce
+                        });
+                        break;
+                    case 'shake':
+                        activeObject.animate('left', activeObject.left === 100 ? 110 : 90, {
+                            onChange: canvas.renderAll.bind(canvas),
+                            duration: 100,
+                            easing: fabric.util.ease.easeInOutCubic,
+                            onComplete: () => {
+                                activeObject.animate('left', 100, {
+                                    onChange: canvas.renderAll.bind(canvas),
+                                    duration: 100,
+                                    easing: fabric.util.ease.easeInOutCubic
+                                });
+                            }
+                        });
+                        break;
+                }
+                addToHistory();
+            }
+        }
+
+        function loadDesign() {
+            const file = document.getElementById('designUploader').files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    canvas.loadFromJSON(event.target.result, canvas.renderAll.bind(canvas));
+                };
+                reader.readAsText(file);
+                addToHistory();
+            }
+        }
+
+        function changeBackgroundColor() {
+            const color = document.getElementById('backgroundPicker').value;
+            canvas.backgroundColor = color;
+            canvas.renderAll();
+            addToHistory();
+        }
+
+        function moveUp() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                canvas.bringToFront(activeObject);
+                canvas.renderAll();
+                addToHistory();
+            }
+        }
+
+        function moveDown() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                canvas.sendToBack(activeObject);
+                canvas.renderAll();
+                addToHistory();
+            }
+        }
+
+        function deleteObject() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                canvas.remove(activeObject);
+                canvas.renderAll();
+                addToHistory();
+            }
+        }
+
+        function copyObject() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                activeObject.clone(cloned => {
+                    clipboard = cloned;
+                    canvas.renderAll();
+                });
+            }
+        }
+
+        function pasteObject() {
+            if (clipboard) {
+                clipboard.clone(clonedObj => {
+                    canvas.add(clonedObj);
+                    clipboard = clonedObj;
+                    canvas.renderAll();
+                    addToHistory();
+                });
+            }
+        }
+
+        function exportDesign() {
+            const json = JSON.stringify(canvas.toJSON());
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'design.json';
+            a.click();
+        }
+
+        function displayDesign() {
+            const json = JSON.stringify(canvas.toJSON());
+            const win = window.open('', '_blank');
+            win.document.body.innerText = json;
+        }
+
+        function downloadImage() {
+            html2canvas(canvas, {
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL();
+                link.download = 'canvas.png';
+                link.click();
+            });
+        }
+
+        function downloadVideo() {
+            const out = document.createElement('canvas');
+            const encoder = new Whammy.Video(30);
+            const stream = out.captureStream();
+            const videoStream = stream.addTrack(canvas.captureStream().getVideoTracks()[0]);
+            const recorder = new MediaRecorder(videoStream);
+            recorder.ondataavailable = event => encoder.add(event.data);
+            recorder.onstop = () => encoder.compile(false, blob => {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'canvas.mp4';
+                link.click();
+            });
+            recorder.start();
+            setTimeout(() => recorder.stop(), 5000); // Stop recording after 5 seconds
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL();
+            link.download = 'canvas.png';
+            link.click();
+        }
+
+        function enableBrush() {
+            isBrushEnabled = true;
+            isEraserEnabled = false;
+            canvas.isDrawingMode = true;
+            canvas.freeDrawingBrush.color = document.getElementById('colorPicker').value;
+            canvas.freeDrawingBrush.width = parseInt(document.getElementById('brushSize').value);
+        }
+
+        function enableEraser() {
+            isBrushEnabled = false;
+            isEraserEnabled = true;
+            canvas.isDrawingMode = true;
+            canvas.freeDrawingBrush.color = document.getElementById('backgroundPicker').value;
+            canvas.freeDrawingBrush.width = parseInt(document.getElementById('brushSize').value);
+        }
+
+        function undo() {
+            if (history.length > 1) {
+                history.pop();
+                canvas.loadFromJSON(history[history.length - 1]);
+                canvas.renderAll();
+            }
+        }
+
+        function redo() {
+            // Redo functionality is not implemented in this example.
+        }
+
+        function addToHistory() {
+            history.push(canvas.toJSON());
+        }
+
+        function addLight() {
+            const color = document.getElementById('lightColorPicker').value;
+            const light = new fabric.Circle({
+                left: 100,
+                top: 100,
+                radius: 10,
+                fill: color,
+                opacity: 0.5,
+                selectable: true,
+                shadow: {
+                    color: color,
+                    blur: 20,
+                    offsetX: 0,
+                    offsetY: 0
+                }
+            });
+            canvas.add(light);
+            addToHistory();
+        }
+
+        function addShadow() {
+            const color = document.getElementById('shadowColorPicker').value;
+            const shadow = new fabric.Circle({
+                left: 100,
+                top: 100,
+                radius: 10,
+                fill: color,
+                opacity: 0.5,
+                selectable: true,
+                shadow: {
+                    color: color,
+                    blur: 20,
+                    offsetX: 10,
+                    offsetY: 10
+                }
+            });
+            canvas.add(shadow);
+            addToHistory();
+        }
+
+        function breakApart() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                activeObject.set({
+                    dirty: true
+                });
+                activeObject._objects.forEach(obj => {
+                    obj.left += activeObject.left;
+                    obj.top += activeObject.top;
+                    obj.setCoords();
+                    canvas.add(obj);
+                });
+                canvas.remove(activeObject);
+                canvas.renderAll();
+                addToHistory();
+            }
+        }
+
+        function distortShape() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                activeObject.set({
+                    dirty: true
+                });
+                const scaleX = Math.random() * 2;
+                const scaleY = Math.random() * 2;
+                activeObject.scaleX = scaleX;
+                activeObject.scaleY = scaleY;
+                canvas.renderAll();
+                addToHistory();
+            }
+        }
+    </script>
+</body>
+</html>
+
