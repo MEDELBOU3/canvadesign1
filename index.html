@@ -9,9 +9,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1313515613759764"
      crossorigin="anonymous"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.4.0/fabric.min.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://boxicons.com/css/boxicons.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@iconify/iconify@3.0.1/dist/iconify.min.js">
     <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Big+Shoulders+Inline+Text:wght@100..900&family=Carter+One&family=Foldit:wght@100..900&family=Nosifer&family=Plaster&family=Titan+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Big+Shoulders+Inline+Text:wght@100..900&family=Carter+One&family=Foldit:wght@100..900&family=Nosifer&family=Titan+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Big+Shoulders+Inline+Text:wght@100..900&family=Carter+One&family=Foldit:wght@100..900&family=Titan+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Big+Shoulders+Inline+Text:wght@100..900&family=Carter+One&family=Titan+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Carter+One&family=Titan+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Carter+One&display=swap');
+        
         body {
             background-color: #333;
         }
@@ -56,6 +70,35 @@
             border-radius: 6px;
             background-color: rgb(56, 56, 56);
         }
+
+b       .popup-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+          }
+          .popup-container i {
+           font-size: 45px;
+           border-radius: 50%;
+          }
+          .popup-container i:hover {
+            background-color: cyan;
+           }
+          .popup-close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 45px;
+            cursor: pointer;
+          }
+        
+        
        footer {
            background-color: black;
            color: #fff;
@@ -106,41 +149,47 @@
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
        </header>
-    
-    <canvas id="canvas" width="800" height="600"></canvas>
+  <canvas id="canvas" width="800" height="600"></canvas>
     <div class="Menu">
         <select id="shapeType">
-            <option value="square">مربع</option>
-            <option value="circle">دائرة</option>
-            <option value="triangle">مثلث</option>
+            <option value="square">squar:</option>
+            <option value="circle"><i class='bx bxs-circle'></i></option>
+            <option value="triangle">مثلث: triangle</option>
             <option value="cylinder">Cylinder</option>
-            <option value="line">خط</option>
-            <option value="arrow">سهم</option>
-            <option value="pyramid">هرم</option>
+            <option value="line">خط : Line</option>
+            <option value="arrow">سهم: Arrow</option>
+            <option value="pyramid">هرم: Pyramid</option>
         </select>
-        <input type="color" id="colorPicker" value="#000000">
+        <i class='bx bxs-palette' style="font-size: 25px; color:#fff; margin-bottom: 5px;"><input type="color" id="colorPicker"  value="#000000"></i>
         <input type="number" id="sizePicker" min="10" max="200" value="50">
         <input type="range" id="opacitySlider" min="0" max="1" step="0.1" value="1">
-        <button onclick="addShape()">إضافة الشكل</button>
+        <button onclick="addShape()"><i class='bx bxs-shapes' style=" color:rgba(0, 0, 0, 0.87); font-size: 25px; filter: drop-shadow(0 0 10px gray)"></i></button>
         <input type="file" id="imageUploader" accept="image/png">
         <input type="file" id="videoUploader" accept="video/mp4">
-        <button onclick="addImage()">إضافة الصورة</button>
-        <button onclick="addVideo()">إضافة الفيديو</button>
-        <input type="text" id="text" placeholder="النص">
-        <button onclick="addText()">إضافة النص</button>
+        <button onclick="addImage()"><i class='bx bx-image-add' style="font-size: 25px; color:#fff;"></i></button>
+        <button onclick="addVideo()"><i class='bx bx-video-plus' style="font-size: 25px; color:#fff;"></i></button>
+        <input type="text" id="text" placeholder="Text...">
+        <button onclick="addText()"> + <i class='bx bx-text' style='color:#ffffff; font-size: 25px;' ></i> </button>
         <select id="fontType">
             <option value="Arial">Arial</option>
             <option value="Verdana">Verdana</option>
             <option value="Tahoma">Tahoma</option>
             <option value="Trebuchet MS">Trebuchet MS</option>
             <option value="Times New Roman">Times New Roman</option>
+            <option value="Foldit">Foldit</option>
+            <option value="Nosifer">Nosifer</option>
+            <option value="Plaster">Plaster</option>
+            <option value="Anton">Anton</option>
+            <option value="Big Shoulders Inline Text">Big Shoulders Inline Text</option>
+            <option value="Carter One">Carter One</option>
+            <option value="Titan One">Titan One</option>
         </select>
         <button onclick="setFont()">تعيين الخط</button>
         <select id="animationType">
             <option value="scale">تغيير المقياس</option>
             <option value="opacity">تغيير الشفافية</option>
-            <option value="top">تحريك لأعلى</option>
-            <option value="left">تحريك لليسار</option>
+            <option value="top"><i class='bx bx-move-vertical' style="font-size: 25px; color:#fff;"></i></option>
+            <option value="left"><i class='bx bx-move-horizontal'style="font-size: 25px; color:#fff;" ></i></option>
             <option value="flipX">اقلب أفقيا</option>
             <option value="bounce">التذبذب</option>
             <option value="shake">الهز</option>
@@ -150,27 +199,83 @@
         <button onclick="loadDesign()">تحميل التصميم</button>
         <input type="color" id="backgroundPicker" value="#ffffff">
         <button onclick="changeBackgroundColor()">تغيير لون الخلفية</button>
-        <button onclick="moveUp()">نقل للأعلى</button>
-        <button onclick="moveDown()">نقل للأسفل</button>
-        <button onclick="deleteObject()">حذف العنصر</button>
-        <button onclick="copyObject()">نسخ العنصر</button>
-        <button onclick="pasteObject()">لصق العنصر</button>
-        <button id="exportButton" onclick="exportDesign()">تصدير التصميم</button>
+        <button onclick="moveUp()"><i class='bx bx-layer-plus' style='color:#ffffff; font-size: 25px;' ></i></button>
+        <button onclick="moveDown()"><i class='bx bx-layer-minus' style='color:#ffffff; font-size: 25px;'></i></button>
+        <button onclick="deleteObject()"><i class='bx bxs-trash' style="font-size: 25px; color:#fff;"></i></button>
+        <button onclick="copyObject()"><i class='bx bxs-copy' style="font-size: 25px; color:#fff;"></i></button>
+        <button onclick="pasteObject()"><i class='bx bx-paste' style="font-size: 25px; color:#fff;"></i></button>
+        <button id="exportButton" onclick="exportDesign()"><i class='bx bxs-file-json' style="font-size: 25px; color:#fff;"></i></button>
         <button id="displayDesignButton" onclick="displayDesign()">عرض التصميم</button>
-        <button id="downloadImageButton" onclick="downloadImage()">تحميل التصميم كصورة</button>
-        <button id="downloadVideoButton" onclick="downloadVideo()">تحميل التصميم كفيديو</button>
-        <button id="downloadPNGButton" onclick="downloadPNG()">تحميل التصميم كPNG</button>
+        <button id="downloadImageButton" onclick="downloadImage()"><i class='bx bxs-download' style="font-size: 25px; color: rgb(0, 162, 255);"></i> <p style="font-size: 12px;">jpg</p></button>
+        <button id="downloadVideoButton" onclick="downloadVideo()"><i class='bx bxs-download' style="font-size: 25px; color: rgb(0, 162, 255);"></i><p style="font-size: 12px;" >Video</p></button>
+        <button id="downloadPNGButton" onclick="downloadPNG()"><i class='bx bxs-download' style="font-size: 25px; color: rgb(0, 162, 255);"></i><p style="font-size: 12px;">png</p></button>
         <input type="range" id="brushSize" min="1" max="50" value="10">
-        <button onclick="enableBrush()">تفعيل الرسم</button>
-        <button onclick="enableEraser()">تفعيل الممحاة</button>
-        <button onclick="undo()">تراجع</button>
-        <button onclick="redo()">التقدم</button>
+        <button onclick="enableBrush()"><i class='bx bxs-paint' style="font-size: 25px; color:#fff;"></i></button>
+        <button onclick="enableEraser()"><i class='bx bxs-eraser' style="font-size: 25px; color:#fff;"></i></button>
+        <button onclick="undo()"><i class='bx bx-undo' style="font-size: 25px; color:#fff;"></i></button>
+        <button onclick="redo()"><i class='bx bx-redo' style="color:#ffffff; font-size: 25px;"></i></button>
         <input type="color" id="lightColorPicker" value="#ffffff">
-        <button onclick="addLight()">إضافة ضوء</button>
+        <button onclick="addLight()"><i class='bx bxs-bulb' style="font-size: 25px; color:#fff;"></i></button>
         <input type="color" id="shadowColorPicker" value="#000000">
         <button onclick="addShadow()">إضافة ظلال</button>
         <button onclick="breakApart()">تفكيك الشكل</button>
         <button onclick="distortShape()">تشويه الشكل</button>
+        <button onclick="makeTextTransparent()">جعل النص فارغًا</button>
+        <button onclick="make3D()">تحويل إلى ثلاثي الأبعاد</button>
+    
+        <button onclick="togglePopup()">Open Icon Selector</button>
+
+        <div id="popup" class="popup-container" style="display: none;">
+          <span class="popup-close" onclick="togglePopup()">&times;</span>
+          <h3>Icon Selector</h3>
+          <input type="color" id="iconColorPicker" onchange="changeIconColor()">
+          <i class="bx bxl-spotify" onclick="selectIcon('bxl-spotify')"></i>
+          <i class="bx bxl-facebook" onclick="selectIcon('bxl-facebook')"></i>
+          <i class="bx bxl-instagram" onclick="selectIcon('bxl-instagram')"></i>
+          <i class="bx bxl-visual-studio" onclick="selectIcon('bxl-visual-studio')" ></i>
+          <i class='bx bxl-unity' onclick="selectIcon('bxl-unity')"></i>
+          <i class='bx bxl-adobe' onclick="selectIcon('bxl-adobe')"></i>
+          <i class='bx bxl-tiktok' onclick="selectIcon('bxl-tiktok')"></i>
+          <i class='bx bxl-youtube' onclick="selectIcon('bxl-youtube')"></i>
+          <i class='bx bxl-google' onclick="selectIcon('bxl-google')"></i>
+          <i class='bx bxl-github'  onclick="selectIcon('bxl-github')"></i>
+          <i class='bx bxl-bitcoin'  onclick="selectIcon('bxl-bitcoin')"></i>
+          <i class='bx bxl-twitch' onclick="selectIcon('bxl-twitch')"></i>
+          <i class='bx bxl-apple' onclick="selectIcon('bxl-apple')"></i>
+          <i class='bx bxl-blogger' onclick="selectIcon('bxl-blogger')"></i>
+          <i class='bx bxl-pinterest' onclick="selectIcon('bxl-pinterest')"></i>
+          <i class='bx bxl-windows' onclick="selectIcon('bxl-windows')"></i>
+          <i class='bx bxl-play-store' onclick="selectIcon('bxl-play-stor')"></i>
+          <i class='bx bxl-slack-old' onclick="selectIcon('bxl-slack-old')"></i>
+          <i class='bx bxl-slack' onclick="selectIcon('bxl-slack')"></i>
+          <i class='bx bxl-telegram' onclick="selectIcon('bxl-telegram')"></i>
+          <i class='bx bxl-chrome' onclick="selectIcon('bxl-chrome')"></i>
+          <i class='bx bxl-wix' onclick="selectIcon('bxl-wix')"></i>
+          <i class='bx bxl-blender' onclick="selectIcon('bxl-blender')"></i>
+          <i class='bx bxl-tux'onclick="selectIcon('bxl-tux')" ></i>
+          <i class='bx bxl-c-plus-plus' onclick="selectIcon('bxl-c-plus-plus')"></i>
+          <i class='bx bxl-zoom' onclick="selectIcon('bxl-zoom')"></i>
+          <i class='bx bxl-microsoft-teams'onclick="selectIcon('bxl-microsoft-teams')" ></i>
+          <i class='bx bxl-snapchat' onclick="selectIcon('bxl-snapchat')"></i>
+          <i class='bx bxl-visa' onclick="selectIcon('bxl-visa')"></i>
+          <i class='bx bxl-mastercard' onclick="selectIcon('bxl-mastercard')"></i>
+          <i class='bx bxl-paypal'onclick="selectIcon('bxl-paypal')" ></i>
+          <i class='bx bxl-baidu' onclick="selectIcon('bxl-baidu')"></i>
+          <i class='bx bxl-wordpress' onclick="selectIcon('bxl-wordpress')"></i>
+          <i class='bx bxl-bing' onclick="selectIcon('bxl-bing')"></i>
+          <i class='bx bxl-android' onclick="selectIcon('bxl-android')"></i>
+          <i class='bx bxl-creative-commons' onclick="selectIcon('bxl-creative-commons')"></i>
+          <i class='bx bxl-messenger'onclick="selectIcon('bxl-messenger')" ></i>
+          <i class='bx bx-badge-check' onclick="selectIcon('bx-badge-check')"></i>
+          <i class='bx bxs-badge-check' onclick="selectIcon('bxs-badge-check')"></i>
+          <i class='bx bxs-badge-dollar' onclick="selectIcon('bxs-badge-dollar')"></i>
+          
+        </div>
+        
+        
+
+       
+
     </div>
     <script>
         const canvas = new fabric.Canvas('canvas');
@@ -606,6 +711,156 @@
                 addToHistory();
             }
         }
+
+
+      function makeTextTransparent() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject && activeObject.type === 'text') {
+                activeObject.set({
+                    fill: 'transparent', // جعل لون النص شفافًا
+                    stroke: activeObject.fill, // استخدام لون النص كلون للحواف
+                    strokeWidth: 1 // ضبط عرض الحواف
+                });
+                canvas.renderAll();
+                addToHistory();
+            }
+        }
+        
+
+          
+        function make3D() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject && activeObject.type === 'text') {
+                activeObject.set({
+                    extrude: 10, // تحديد الثلاثي الأبعاد
+                    angle: 30, // زاوية الميلان
+                    shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.5)', offsetX: 2, offsetY: 2, blur: 5 }), // إضافة تأثير الظل
+                    fill: '', // جعل الخط شفافًا
+                    stroke: 'black', // لون حواف الخط
+                    strokeWidth: 1 // عرض حواف الخط
+                });
+                canvas.renderAll();
+            }
+        }
+
+   
+
+
+
+     
+        function make3D() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject && activeObject.type === 'text') {
+                let totalSkew = 0;
+                let skewIncrement = -9; // قيمة الزيادة في الانحراف في كل مرة
+                let shadowOffsetIncrement = 3; // قيمة الزيادة في إزاحة الظلال في كل مرة
+                let shadowBlurIncrement = 3; // قيمة الزيادة في حدة الظلال في كل مرة
+                let fillIncrement = 8; // زيادة في الإمتلاء في كل مرة
+                let reflectivityIncrement = 0.1; // زيادة في اللمعان في كل مرة
+                
+                // إنشاء النسخة الأصلية
+                activeObject.clone(function(clonedOriginal) {
+                    canvas.add(clonedOriginal);
+                    clonedOriginal.set({
+                        dirty: true // تجاهل التخزين المؤقت لتطبيق التغييرات بشكل فوري
+                    });
+                    
+                    // تعديل النسخة الأصلية
+                    clonedOriginal.set({
+                        left: clonedOriginal.left, // البقاء في نفس المكان
+                        skewX: 0, // لا يوجد انحراف أفقي هنا
+                        skewY: 0, // لا يوجد انحراف رأسي هنا
+                        skewZ: 0, // لا يوجد انحراف عمقي هنا
+                        shadow: { // ضبابية
+                            color: 'rgba(0, 0, 0, 0.3)', // لون الظلال الخافت
+                            offsetX: 5, // زيادة تنازلية لإزاحة أفقية للظلال لليمين
+                            offsetY: 5, // زيادة تنازلية لإزاحة رأسية للظلال للأسفل
+                            blur: 3 // حدة الظلال الخافتة
+                        },
+                        fill: activeObject.fill, // اللون الأصلي
+                        stroke: activeObject.stroke, // لون الحواف الأصلي
+                        strokeWidth: activeObject.strokeWidth, // عرض الحواف الأصلي
+                        strokeLineJoin: 'round', // نوع الانضمام للحواف
+                        strokeLineCap: 'round' // شكل نهاية الحواف
+                    });
+        
+                    // إنشاء النسخ بالتناوب
+                    for (let i = 1; i <= 30; i++) { // يمكنك تعديل هذا الرقم حسب عدد الانحرافات المرغوب فيها
+                        activeObject.clone(function(cloned) {
+                            canvas.add(cloned);
+                            cloned.set({
+                                left: clonedOriginal.left + i * -10, // زيادة التموضع لليمين بشكل منحني
+                                skewX: -totalSkew, // اتجاه الانحراف لليسار
+                                skewY: 0, // لا يوجد انحراف رأسي هنا
+                                skewZ: 0, // لا يوجد انحراف عمقي هنا
+                                shadow: { // ضبابية
+                                    color: 'rgba(0, 0, 0, ' + (0.1 + (i * shadowBlurIncrement / 100)) + ')', // زيادة تنازلية في حدة الظلال
+                                    offsetX: -i * shadowOffsetIncrement, // زيادة تنازلية لإزاحة أفقية للظلال لليسار
+                                    offsetY: i * shadowOffsetIncrement, // زيادة تنازلية لإزاحة رأسية للظلال للأسفل
+                                    blur: i * shadowBlurIncrement // زيادة تنازلية لحدة الظلال
+                                },
+                                fill: 'rgba(255, 255, 255, ' + (0.25 - (i * fillIncrement / 100)) + ')', // تناقص قيمة الشفافية
+                                stroke: activeObject.stroke, // لون الحواف الأصلي
+                                strokeWidth: activeObject.strokeWidth, // عرض الحواف الأصلي
+                                strokeLineJoin: 'round', // نوع الانضمام للحواف
+                                strokeLineCap: 'round', // شكل نهاية الحواف
+                                dirty: true // تجاهل التخزين المؤقت لتطبيق التغييرات بشكل فوري
+                            });
+                            totalSkew += skewIncrement;
+                            shadowBlurIncrement += 1; // تزايد قيمة زيادة حدة الظلال
+                        });
+                    }
+                });
+        
+                addToHistory();
+            }
+        }
+        
+        
+
+        let selectedIcon = null;
+
+function togglePopup() {
+  const popup = document.getElementById('popup');
+  popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
+}
+
+function selectIcon(iconClass) {
+  const iconUnicode = getIconUnicode(iconClass);
+  selectedIcon = new fabric.IText(iconUnicode, {
+    left: 100,
+    top: 100,
+    fontFamily: 'boxicons',
+    fontSize: 80,
+    fill: '#000000' // Default color
+  });
+  
+  canvas.add(selectedIcon);
+  togglePopup();
+}
+
+function changeIconColor() {
+  if (selectedIcon) {
+    const colorPicker = document.getElementById('iconColorPicker');
+    const newColor = colorPicker.value;
+    selectedIcon.set('fill', newColor);
+    canvas.renderAll();
+  }
+}
+
+function getIconUnicode(iconClass) {
+  const iconElement = document.createElement('i');
+  iconElement.className = iconClass;
+  document.body.appendChild(iconElement);
+  const iconUnicode = window.getComputedStyle(iconElement, ':before').content;
+  document.body.removeChild(iconElement);
+  return iconUnicode.replace(/"/g, ''); // Remove quotes
+}
+        
+
+
+
+        
     </script>
       <footer>
         <div class="social">
