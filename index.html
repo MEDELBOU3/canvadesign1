@@ -13,6 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.4.0/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/whammy/0.2.1/whammy.min.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://boxicons.com/css/boxicons.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -237,7 +238,6 @@
           <i class='bx bxl-unity' onclick="selectIcon('bxl-unity')"></i>
           <i class='bx bxl-adobe' onclick="selectIcon('bxl-adobe')"></i>
           <i class='bx bxl-tiktok' onclick="selectIcon('bxl-tiktok')"></i>
-          <p>---------------------------</p>
           <i class='bx bxl-youtube' onclick="selectIcon('bxl-youtube')"></i>
           <i class='bx bxl-google' onclick="selectIcon('bxl-google')"></i>
           <i class='bx bxl-github'  onclick="selectIcon('bxl-github')"></i>
@@ -247,7 +247,6 @@
           <i class='bx bxl-blogger' onclick="selectIcon('bxl-blogger')"></i>
           <i class='bx bxl-pinterest' onclick="selectIcon('bxl-pinterest')"></i>
           <i class='bx bxl-windows' onclick="selectIcon('bxl-windows')"></i>
-          <p>---------------------------</p>
           <i class='bx bxl-play-store' onclick="selectIcon('bxl-play-stor')"></i>
           <i class='bx bxl-slack-old' onclick="selectIcon('bxl-slack-old')"></i>
           <i class='bx bxl-slack' onclick="selectIcon('bxl-slack')"></i>
@@ -258,7 +257,6 @@
           <i class='bx bxl-tux'onclick="selectIcon('bxl-tux')" ></i>
           <i class='bx bxl-c-plus-plus' onclick="selectIcon('bxl-c-plus-plus')"></i>
           <i class='bx bxl-zoom' onclick="selectIcon('bxl-zoom')"></i>
-          <p>---------------------------</p>
           <i class='bx bxl-microsoft-teams'onclick="selectIcon('bxl-microsoft-teams')" ></i>
           <i class='bx bxl-snapchat' onclick="selectIcon('bxl-snapchat')"></i>
           <i class='bx bxl-visa' onclick="selectIcon('bxl-visa')"></i>
@@ -274,8 +272,7 @@
           <i class='bx bxs-badge-check' onclick="selectIcon('bxs-badge-check')"></i>
           <i class='bx bxs-badge-dollar' onclick="selectIcon('bxs-badge-dollar')"></i>
           <i class='bx bxs-car' onclick="selectIcon('bxs-car')"></i>
-          <i class='bx bx-time-five'  ></i>
-           <p>---------------------------</p>
+          <i class='bx bx-time-five'  onclick="selectIcon('bx-time-five')"></i>
           <i class='bx bxs-timer' onclick="selectIcon('bxs-timer')" ></i>
           <i class='bx bx-headphone' onclick="selectIcon('bxs-timer')" ></i>
           <i class='bx bxs-microphone' onclick="selectIcon('bxs-microphone')" ></i>
@@ -287,7 +284,6 @@
           <i class='bx bxl-mongodb' onclick="selectIcon('bxl-mangodb')"></i>
           <i class='bx bx-run' onclick="selectIcon('bx-run')"></i>
           <i class='bx bx-laugh' onclick="selectIcon('bx-laugh')"></i>
-         <p>---------------------------</p>
           <i class='bx bxs-happy-heart-eyes'onclick="selectIcon('bxs-happy-heart-eyes')" ></i>
           <i class='bx bx-shocked' onclick="selectIcon('bx-shocked')" ></i>
           <i class='bx bxs-cool'onclick="selectIcon('bxs-cool')"></i>
@@ -298,7 +294,6 @@
           <i class='bx bx-tv' onclick="selectIcon('bx-tv')"></i>
             <i class='bx bxs-music' onclick="selectIcon('bxs-music')"></i>
             <i class='bx bxs-star' onclick="selectIcon('bxs-star')"></i>
-             <p>---------------------------</p>
             <i class='bx bxs-tennis-ball' onclick="selectIcon('bxs-tennis-ball')"></i>
             <i class='bx bxs-t-shirt' onclick="selectIcon('bxs-t-shirt')"></i>
             <i class='bx bxs-joystick' onclick="selectIcon('bxs-joystick')"></i>
@@ -640,7 +635,8 @@
             setTimeout(() => recorder.stop(), 5000); // Stop recording after 5 seconds
         }
 
-        function downloadPNG() {
+            function downloadPNG() {
+            const imageDataURL = canvas.toDataURL('image/png', 1.0);
             const link = document.createElement('a');
             link.href = canvas.toDataURL();
             link.download = 'canvas.png';
