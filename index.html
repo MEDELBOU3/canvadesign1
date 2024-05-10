@@ -132,6 +132,85 @@
        font-size: 18px;
         
     }
+         .filters {
+             margin-top: -60%;
+             flex-direction: column;
+             position: absolute;
+             max-width: 250px;
+             padding: 10px;
+             margin-bottom: 10px;
+             background-color: rgb(100, 100, 100);
+             z-index: 1;
+             box-shadow: 0 0 10px rgba(255, 255, 255, 0.158);
+          }
+          .filters select{
+            margin-top: -30px;
+            border-radius: 5px;
+            height: 25px;
+            width: 120px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+         }
+         #filterType option{
+             border-radius: 5px;
+             background-color: #3a3a3a;
+         }
+         select:hover{
+            background-color: rgba(185, 185, 185, 0.534);
+        }
+        #filterType option:focus{
+            background-color: rgba(94, 92, 92, 0.534);
+        }
+        .filterControls input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            margin-top: 20px;
+            border-radius: 5px;
+            background: #ffffff;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+    
+        /* تغيير لون المؤشر عند التحريك */
+        .filterControls input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid rgb(56, 56, 56);
+            background: #000000;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.767);
+        }
+    
+        .filterControls input[type="range"]::-webkit-slider-thumb:hover {
+            background-color: rgb(255, 242, 128);
+        }
+
+        .filterControls input[type="range"]::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            background: #000000;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.699);
+        } 
+    
+          .filters button{
+            margin-top: 15px;
+           font-size: 15px;
+            border: 1px solid #fff;
+         }
+         .filters button:hover{
+            background-color: #3a3a3a;
+            transition: .3s cubic-bezier(0.755, 0.05, 0.855, 0.06);
+         }
     </style>
 </head>
 <body>
@@ -308,7 +387,20 @@
         </div>
         
         
-
+   
+    <div class="filters">
+        <div class="filterControls">
+            <h1>Filters for img</h1>
+            <select id="filterType">
+                <option value="sepia">Sepia</option>
+                <option value="blur">Blur</option>
+                <option value="shadow">Shadow</option>
+                <option value="darkness">Darkness</option>
+            </select>
+            <input type="range" id="filterValue" min="1" max="10" value="5">
+            <button onclick="applyFilter()">Apply Filter</button>
+        </div>
+    </div>
        
 
     </div>
@@ -921,6 +1013,91 @@ window.onload = function() {
 };
     
 
+function applyFilter() {
+    const filterType = document.getElementById('filterType').value;
+    const filterValue = parseInt(document.getElementById('filterValue').value);
+    switch (filterType) {
+        case 'sepia':
+            applySepia();
+            break;
+        case 'blur':
+            applyBlur(filterValue);
+            break;
+        case 'shadow':
+            applyShadow(filterValue);
+            break;
+            case 'darkness': // Add case for Darkness filter
+            applyDarkness();
+            break;
+        default:
+            break;
+
+    }
+}
+
+function applyDarkness() {
+    const activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.isType('image')) {
+        const darknessFilter = new fabric.Image.filters.Darkness();
+        activeObject.filters.push(darknessFilter);
+        activeObject.applyFilters();
+        canvas.renderAll();
+    } else {
+        console.error('الرجاء تحديد صورة لتطبيق الفلتر عليها');
+    }
+}
+
+function applySepia() {
+    const activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.isType('image')) {
+        const sepiaFilter = new fabric.Image.filters.Sepia();
+        activeObject.filters.push(sepiaFilter);
+        activeObject.applyFilters();
+        canvas.renderAll();
+    } else {
+        console.error('الرجاء تحديد صورة لتطبيق الفلتر عليها');
+    }
+}
+
+function applyBlur(blurValue) {
+    const activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.isType('image')) {
+        const blurFilter = new fabric.Image.filters.Convolute({
+            matrix: [
+                1 / 16, 1 / 8, 1 / 16,
+                1 / 8,  1 / 4, 1 / 8,
+                1 / 16, 1 / 8, 1 / 16
+            ]
+        });
+        activeObject.filters.push(blurFilter);
+        activeObject.applyFilters();
+        canvas.renderAll();
+    }
+}
+
+function applyShadow(shadowValue) {
+    const activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.isType('image')) {
+        // اعتمادًا على المعلمات المطلوبة لتطبيق الظل
+        const offset = 5; // تغيير هذه القيمة حسب رغبة المستخدم
+        const blur = shadowValue; // تغيير هذه القيمة حسب رغبة المستخدم
+        const color = [0, 0, 0, 0.5]; // تغيير هذه القيمة حسب رغبة المستخدم
+        applyShadowFilter(offset, blur, color);
+    } else {
+        console.error('الرجاء تحديد صورة لتطبيق الفلتر عليها');
+    }
+}
+
+function applyShadowFilter(offset, blur, color) {
+    const activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.isType('image')) {
+        activeObject.filters.push(new ShadowFilter({ shadowOffset: offset, shadowBlur: blur, shadowColor: color }));
+        activeObject.applyFilters();
+        canvas.renderAll();
+    } else {
+        console.error('الرجاء تحديد صورة لتطبيق الفلتر عليها');
+    }
+}
 
 
         
