@@ -51,7 +51,7 @@
             border: 1px solid rgb(99, 99, 99);
             font-size: 16px;
             box-shadow: 0 0 1px rgb(184, 184, 184);
-            background-color: rgba(94, 92, 92, 0.534);
+            background-color: rgb(94, 92, 92);
             color: #fff;
         }
          button:hover {
@@ -110,7 +110,7 @@
            background-color: black;
            color: #fff;
            padding: 40px 0;
-           margin-top: 220px;
+           margin-top: 280px;
            box-shadow: 0px 0 px -5px 10px rgba(0, 0, 0, 0.5);
        }
 
@@ -1212,15 +1212,13 @@ function applyShadowFilter(offset, blur, color) {
 }
 
 function setBackground(imageSrc) {
-    var canvas = document.getElementById('canvas');
-    var context = canvas.getContext('2d');
-    var img = new Image();
-    img.crossOrigin = 'Anonymous'; // لتجنب مشاكل CORS
-    img.onload = function() {
-        context.drawImage(img, 0, 0, canvas.width, canvas.height);
-        canvas.renderAll(); // تأكد من إعادة رسم الـ canvas
-    };
-    img.src = imageSrc;
+  var canvas = document.getElementById('canvas');
+  var context = canvas.getContext('2d');
+  var img = new Image();
+  img.onload = function() {
+    context.drawImage(img, 0, 0, canvas.width, canvas.height);
+  };
+  img.src = imageSrc;
 }
 
  
@@ -1251,10 +1249,10 @@ document.getElementById('previewButton').addEventListener('click', showPreview);
     </script>
       <footer>
         <div class="social">
-          <a href="https://www.facebook.com/Simo.lbou3?mibextid=ZbWKwL"><i class='bx bxl-facebook bx-tada bx-flip-vertical'></i></a>
-          <a href="https://whatsapp.com/channel/0029Va29keX11ulJKqdPts1n"><i class='bx bxl-whatsapp bx-tada' ></i></a>
-          <a href="https://www.instagram.com/simo_elb_3?igsh=MTVsYnlvZTlpaWVxdw=="><i class='bx bxl-instagram bx-tada' ></i></a>
-          <a href="https://youtube.com/@elbousimo1701?si=MXOeu4urBbPDc4kq"><i class='bx bxl-youtube'></i></a>
+          <a href="https://www.facebook.com/Simo.lbou3?mibextid=ZbWKwL"><i class='bx bxl-facebook bx-tada bx-flip-vertical' style=" color: #fff;"></i></a>
+          <a href="https://whatsapp.com/channel/0029Va29keX11ulJKqdPts1n"><i class='bx bxl-whatsapp bx-tada' style=" color: #fff;"></i></a>
+          <a href="https://www.instagram.com/simo_elb_3?igsh=MTVsYnlvZTlpaWVxdw=="><i class='bx bxl-instagram bx-tada' style=" color: #fff;"></i></a>
+          <a href="https://youtube.com/@elbousimo1701?si=MXOeu4urBbPDc4kq"><i class='bx bxl-youtube' style=" color: #fff;"></i></a>
         </div>
         <div class="copy">
           <p>© 2024 SM.Studio. All rights reserved.</p>
