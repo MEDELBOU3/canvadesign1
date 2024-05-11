@@ -56,6 +56,8 @@
         }
          button:hover {
              background-color: rgba(0, 0, 0, 0.534);
+             border: 2px solid;
+             border-color: black whit black white;
         }
         input { 
             border-radius: 5px;
@@ -72,7 +74,7 @@
             padding-bottom: 10px;
             margin-top: 20px;
             border: none;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
             background-color:  rgb(100, 100, 100);
         }
 
@@ -215,11 +217,11 @@
             transition: .3s cubic-bezier(0.755, 0.05, 0.855, 0.06);
          }
 
- .gallery {
+        .gallery {
             width: 250px;
             height: 620px;
             margin-left: 81.5%;
-            margin-top: -62.6%;
+            margin-top: -63.7%;
             background-color: rgb(255, 255, 255);
             filter: drop-shadow(0 0 10px rgb(58, 58, 58));
             overflow-y: auto; /* إضافة ممر عمودي */
@@ -309,7 +311,7 @@
     <div class="Menu">
         <select id="shapeType">
             <option value="square">squar:</option>
-            <option value="circle"><i class='bx bxs-circle'></i></option>
+            <option value="circle">circle</option>
             <option value="triangle">مثلث: triangle</option>
             <option value="cylinder">Cylinder</option>
             <option value="line">خط : Line</option>
