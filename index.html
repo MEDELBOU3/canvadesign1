@@ -347,7 +347,9 @@
         <button onclick="addVideo()"><i class='bx bx-video-plus' style="font-size: 25px; color:#fff;"></i></button>
         <input type="text" id="text" placeholder="Text...">
         <button onclick="addText()"> + <i class='bx bx-text' style='color:#ffffff; font-size: 25px;' ></i> </button>
-        <select id="fontType">
+       
+        
+        <select id="fontType" onchange="showArabicFonts()">
             
             <option value="Arial">Arial</option>
             <option value="Verdana">Verdana</option>
@@ -371,9 +373,10 @@
             <option value="Jacquard 24">Jacquard 24</option>
             <option value="Orbitron">Orbitron</option>
             <option value="Black Ops One">Black Ops One</option>
-            
-            <select>
             <option >عربي</option>
+        </select>
+
+        <select id="arabicFonts" style="display: none;">
              <option value="Alkalami">Alkalami</option>
              <option value="Blaka Hollow">Blaka Hollow</option>
              <option value="Blaka Ink">Blaka Ink</option>
@@ -383,8 +386,8 @@
              <option value=" Ruwudu"> Ruwudu</option>
              <option value="Lemonada">Lemonada</option>
               <option value="Reem Kufi">Reem Kufi</option>
-            </select>
         </select>
+        
         <button onclick="setFont()">تعيين الخط</button>
         <select id="animationType">
             <option value="scale">تغيير المقياس</option>
@@ -742,6 +745,18 @@
                 addToHistory();
             }
         }
+
+
+      function showArabicFonts() {
+         var fontType = document.getElementById("fontType");
+         var arabicFonts = document.getElementById("arabicFonts");
+         if (fontType.value === "عربي") {
+        arabicFonts.style.display = "inline-block";
+      } else {
+         arabicFonts.style.display = "none";
+      }
+    }
+
         
         function animateShape() {
             const animationType = document.getElementById('animationType').value;
