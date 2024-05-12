@@ -94,7 +94,10 @@
             margin-top: 20px;
             border: none;
             box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-            background-color:  rgb(100, 100, 100);
+            background-color: rgba(0, 0, 0, 0.5);
+            border-raduis: 10px;
+            filter: blur(10px);
+            color: white;
         }
 
        .popup-container {
@@ -123,8 +126,31 @@
             font-size: 45px;
             cursor: pointer;
           }
+        #fontType {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-raduis: 10px;
+            color: white;
+             filter: blur(10px);
+          }
         
-        
+       /* تخصيص شريط التمرير لعنصر select */
+select::-webkit-scrollbar {
+    width: 8px; /* ضبط عرض شريط التمرير */
+}
+
+select::-webkit-scrollbar-track {
+    background: transparent; /* جعل خلفية المسار شفافة */
+}
+
+select::-webkit-scrollbar-thumb {
+    background: #888; /* لون الشريحة */
+    border-radius: 4px; /* جعل حواف الشريحة مستديرة */
+}
+
+select::-webkit-scrollbar-thumb:hover {
+    background: #555; /* لون الشريحة عند التحويم */
+}
+
        footer {
            background-color: black;
            color: #fff;
@@ -241,8 +267,10 @@
             height: 620px;
             margin-left: 81.5%;
             margin-top: -63.7%;
-            background-color: rgb(255, 255, 255);
-            filter: drop-shadow(0 0 10px rgb(58, 58, 58));
+            background-color: rgba(0, 0, 0, 0.5);
+            border-raduis: 10px;
+            color: white;
+            filter: blur(10px);
             overflow-y: auto; /* إضافة ممر عمودي */
           }
           .gallery h1{
@@ -350,7 +378,7 @@
        
         
         <select id="fontType" >
-            
+            <option style="color: black;">English</option>
             <option value="Arial">Arial</option>
             <option value="Verdana">Verdana</option>
             <option value="Tahoma">Tahoma</option>
@@ -373,7 +401,7 @@
             <option value="Jacquard 24">Jacquard 24</option>
             <option value="Orbitron">Orbitron</option>
             <option value="Black Ops One">Black Ops One</option>
-            <option >عربي</option>
+            <option style="color: black;">عربي</option>
              <option value="Alkalami">Alkalami</option>
              <option value="Blaka Hollow">Blaka Hollow</option>
              <option value="Blaka Ink">Blaka Ink</option>
