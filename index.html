@@ -349,7 +349,7 @@
         <button onclick="addText()"> + <i class='bx bx-text' style='color:#ffffff; font-size: 25px;' ></i> </button>
        
         
-        <select id="fontType" onchange="showArabicFonts()">
+        <select id="fontType" >
             
             <option value="Arial">Arial</option>
             <option value="Verdana">Verdana</option>
@@ -374,9 +374,6 @@
             <option value="Orbitron">Orbitron</option>
             <option value="Black Ops One">Black Ops One</option>
             <option >عربي</option>
-        </select>
-
-        <select id="fontType" class="fontTypeArabic"  style="display: none;">
              <option value="Alkalami">Alkalami</option>
              <option value="Blaka Hollow">Blaka Hollow</option>
              <option value="Blaka Ink">Blaka Ink</option>
@@ -387,7 +384,7 @@
              <option value="Lemonada">Lemonada</option>
               <option value="Reem Kufi">Reem Kufi</option>
         </select>
-        <div class="fontTypeArabicOption" style="display: none;">
+        
         <button onclick="setFont()">تعيين الخط</button>
         <select id="animationType">
             <option value="scale">تغيير المقياس</option>
@@ -747,19 +744,8 @@
         }
 
 
-     function showArabicFonts() {
-    var fontType = document.getElementById("fontType");
-    var fontTypeArabic = document.getElementsByClassName("fontTypeArabic")[0];
-    var fontTypeArabicOptions = document.getElementsByClassName("fontTypeArabicOptions")[0];
-    if (fontType.value === "عربي") {
-      fontTypeArabic.style.display = "inline-block";
-      fontTypeArabicOptions.style.display = "inline-block";
-    } else {
-      fontTypeArabic.style.display = "none";
-      fontTypeArabicOptions.style.display = "none";
-    }
-  }
 
+ 
         
         function animateShape() {
             const animationType = document.getElementById('animationType').value;
