@@ -14,6 +14,8 @@
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.4.0/fabric.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/whammy/0.2.1/whammy.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.1/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://boxicons.com/css/boxicons.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -530,7 +532,8 @@ select::-webkit-scrollbar-thumb:hover {
             <i class='bx bx-wind' onclick="selectIcon('bx-wind')"></i>
             <i class='bx bx-restaurant' onclick="selectIcon('bx-restaurant')"></i>
         </div>
-        
+            <input type="file" id="fileInput" accept=".html">
+    <button id="loadButton">Load HTML</button>
     </div>  
    
     <div class="filters">
@@ -1317,6 +1320,52 @@ function closePreview() {
 
 // ربط الدالة showPreview بالزر
 document.getElementById('previewButton').addEventListener('click', showPreview);
+
+
+
+document.getElementById('loadButton').addEventListener('click', function() {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const content = sanitizeHTML(e.target.result);
+            displayOnCanvas(content);
+        };
+        reader.readAsText(file);
+    } else {
+        alert('Please select a file first.');
+    }
+});
+
+function sanitizeHTML(html) {
+    // تنظيف HTML باستخدام DOMPurify
+    return DOMPurify.sanitize(html);
+}
+
+function displayOnCanvas(htmlContent) {
+    const iframe = document.createElement('iframe');
+    document.body.appendChild(iframe);
+    
+    iframe.style.position = 'relative';
+    iframe.style.left = '-99px';
+    iframe.srcdoc = htmlContent;
+
+    iframe.onload = function() {
+        html2canvas(iframe.contentDocument.body).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const fabricCanvas = new fabric.Canvas('canvas');
+            fabric.Image.fromURL(imgData, function(img) {
+                fabricCanvas.add(img);
+                img.scaleToWidth(fabricCanvas.width);
+                img.scaleToHeight(fabricCanvas.height);
+            });
+            document.body.removeChild(iframe);
+        });
+    };
+}
+
         
     </script>
       <footer>
